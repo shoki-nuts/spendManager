@@ -1,5 +1,6 @@
 const express = require('express');
 const pool = require('./DB');
+const cors = require('cors');
 
 // ポート番号
 const PORT = 3001;
@@ -7,6 +8,12 @@ const PORT = 3001;
 const app = express();
 // jsonを指定
 app.use(express.json());
+// クライアントの指定
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true, 
+    optionsSuccessStatus: 200
+}));
 
 // Method GET spends
 app.get('/spends', (req,res)=>{
