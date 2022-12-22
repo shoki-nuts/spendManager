@@ -15,7 +15,7 @@ app.use(cors({
     optionsSuccessStatus: 200
 }));
 
-// Method GET spends
+// Method GET spends data
 app.get('/spends', (req,res)=>{
     // spendTから全て取得
     pool.query('SELECT * FROM spend', (err,result)=>{
@@ -24,7 +24,7 @@ app.get('/spends', (req,res)=>{
     })
 })
 
-// Method GET spend
+// Method GET spend data
 app.get('/spend/:id', (req,res)=>{
 
     const id = req.params.id;
@@ -36,7 +36,7 @@ app.get('/spend/:id', (req,res)=>{
     });
 })
 
-// Method POST spends
+// Method POST spends data
 app.post('/spends', (req,res)=>{
 
     // parmeterからaxiosでpostしたname,amountを拾う
@@ -45,13 +45,25 @@ app.post('/spends', (req,res)=>{
 
     // nameの値がない、amountの値が数値以外の場合、POSTしない
     if (spendName.length!==0 && !isNaN(spendAmount)) {
+
         console.log(`name:${spendName}`,`amount:${spendAmount}`)
         pool.query('INSERT INTO spend(name, amount) VALUES ($1,$2)',[spendName, spendAmount])
+
     } else {
         console.log('データの値が無効です')
     }
+})
 
-    // spendTに行を追加
+// Method DELETE spend data
+app.delete('/spend/:id', (req,res)=>{
+
+    const id = req.params.id;
+
+    // spendTからidが合致する行を取得
+    pool.query('DELETE FROM spend where id=$1',[id], (err,result)=>{
+        if (err) throw err;
+        return res.status(200).json(result.rows);
+    });
 })
 
 // server up
