@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useEffect } from 'react';
 import Spend from './Spend';
+import SpendForm from './SpendForm';
 
 const baseURL = 'http://localhost:3001/spends'
 
@@ -21,9 +22,12 @@ const SpendsList = () => {
   },[]) 
 
   return (
-    <div>
-      {spends.map((i)=><Spend spend={i}/>)}
-    </div>
+    <>
+      <SpendForm/>
+      <div>
+        {spends.map((n)=><Spend spend={n}/>)}
+      </div>
+    </>
   )
 }
 

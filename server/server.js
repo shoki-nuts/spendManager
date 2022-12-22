@@ -24,7 +24,7 @@ app.get('/spends', (req,res)=>{
     })
 })
 
-// Method GET spends
+// Method GET spend
 app.get('/spend/:id', (req,res)=>{
 
     const id = req.params.id;
@@ -34,6 +34,24 @@ app.get('/spend/:id', (req,res)=>{
         if (err) throw err;
         return res.status(200).json(result.rows);
     });
+})
+
+// Method POST spends
+app.post('/spends', (req,res)=>{
+
+    // parmeterからaxiosでpostしたname,amountを拾う
+    const spendName = req.body.name;
+    const spendAmount = req.body.amount;
+
+    // nameの値がない、amountの値が数値以外の場合、POSTしない
+    if (spendName.length!==0 && !isNaN(spendAmount)) {
+        console.log(`name:${spendName}`,`amount:${spendAmount}`)
+        pool.query('INSERT INTO spend(name, amount) VALUES ($1,$2)',[spendName, spendAmount])
+    } else {
+        console.log('データの値が無効です')
+    }
+
+    // spendTに行を追加
 })
 
 // server up
