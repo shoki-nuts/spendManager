@@ -6,10 +6,10 @@ const Spend = ({spend}) => {
   const baseURL = 'http://localhost:3001/spend/'
 
   // データの削除
-  const handleDeleteSpend=()=>{
+  const handleDeleteSpend= async()=>{
 
-    axios.delete(baseURL+spend.id)
-    .then(()=>{console.log(`delete id:${spend.id}`)})
+    await axios.delete(baseURL+spend.id)
+    .try(()=>{console.log(`delete id:${spend.id}`)})
     .catch(err=>console.log(err))
   };
   
