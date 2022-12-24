@@ -1,45 +1,55 @@
 import axios from 'axios';
 import React from 'react'
-import { useEffect } from 'react';
+import { useRef } from 'react';
 import { useState } from 'react';
 
-const SpendForm = () => {
+const SpendForm = ({spendList}) => {
 
   const baseURL = 'http://localhost:3001/spends'
 
-  const [SpendName, setSpendName] = useState('');
-  const [SpendAmount, setSpendAmount] = useState('');
+  const [spendDate, setSpendDate] = useState();
+  const [spendItem, setSpendItem] = useState();
+  const [spendAmount, setSpendAmount] = useState();
 
-  // inputに入力されたnameデータを取得
-  const handleSpendNameChange = (e) =>{
-    const SpendNameValue = e.target.value 
-    setSpendName(SpendNameValue);
-  }
+  const spendDateRef = useRef();
+  const spendItemRef = useRef();
+  const spendAmountRef = useRef();
 
-  // inputに入力されたamountデータを取得
-  const handleSpendAmountChange = (e) =>{
-    const SpendAmountValue = e.target.value
-    setSpendAmount(SpendAmountValue);
-  }
-
-  // 取得したデータをpost
+  // 送信ボタンを押されたときの処理
   const handleSendForm = () =>{
+
+    // inputの値を取得
+    setSpendDate(spendDateRef.current.value);
+    setSpendItem(spendItemRef.current.value);
+    setSpendAmount(spendAmountRef.current.value);
+
+    // 取得したデータをpost
     axios.post(baseURL,{
-      name: SpendName,
-      amount: SpendAmount
+      date: spendDate,
+      item: spendItem,
+      amount: spendAmount
     }).then(res=>console.log(`body:`,res.data))
     .catch(err=>console.log('err:',err))
+
+    // inputの値を初期化
+    spendDateRef.current.value = null;
+    spendItemRef.current.value = null;
+    spendAmountRef.current.value = null;
   }
 
   return (
     <>
       <form method="post">
-          <input type="text" onChange={handleSpendNameChange}/>
-          <input type="text" onChange={handleSpendAmountChange}/>
-          <input type="button" onClick={handleSendForm} value="追加" />
+        <input type="date" ref={spendDateRef}/>
+        <input type="text" ref={spendItemRef}/>
+        <input type="text" ref={spendAmountRef}/>
+        <input type="button" onClick={handleSendForm} value="追加" />
       </form>
-      <p>{SpendName}</p>
-      <p>{SpendAmount}</p>
+      <ul>
+        <li>{spendDate}</li>
+        <li>{spendItem}</li>
+        <li>{spendAmount}</li>
+      </ul>
     </>
   )
 }
