@@ -8,11 +8,13 @@ const Spend = ({spend}) => {
   // データの削除
   const handleDeleteSpend=()=>{
 
-    axios.delete(baseURL+spend.id)
-    .then(()=>{console.log(`delete id:${spend.id}`)})
+    axios.delete(baseURL+spend.spends_id)
+    .then(()=>{console.log(`delete id:${spend.spends_id}`)})
     .catch(err=>console.log(err))
   };
   
+  const day = new Date();
+  console.log(day)
   
   return (
     <ul>

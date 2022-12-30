@@ -2,19 +2,19 @@ import React from 'react'
 import axios from 'axios'
 import { useState } from 'react'
 import { useEffect } from 'react';
-import Spend from './Spend';
-import SpendForm from './SpendForm';
+import Spend from './Income';
+import SpendForm from './IncomeForm';
 
-const baseURL = 'http://localhost:3001/spends'
+const baseURL = 'http://localhost:3001/incomes'
 
-const SpendsList = () => {
+const IncomesList = () => {
 
-  const [spends, setSpends] = useState([]);
+  const [incomes, setIncomes] = useState([]);
 
   useEffect(()=>{
     axios.get(baseURL, {withCredentials: true})
     .then(res=>{
-      setSpends(res.data);
+      setIncomes(res.data);
       console.log(`GET status code:${res.status}`)
     }).catch(err=>{
         console.log(`Err: ${err}`);
@@ -25,10 +25,10 @@ const SpendsList = () => {
     <>
       <SpendForm/>
       <div>
-        {spends.map((n)=><Spend spend={n} key={n.spends_id}/>)}
+        {incomes.map((n)=><Spend income={n} key={n.incomes_id}/>)}
       </div>
     </>
   )
 }
 
-export default SpendsList
+export default IncomesList

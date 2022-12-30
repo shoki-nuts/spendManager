@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const spendsRouter = require('./Routes/spends')
+const incomesRouter = require('./Routes/incomes')
 
-// ポート番号
+// ポート番号指定
 const PORT = 3001;
 
 const app = express();
@@ -17,8 +18,10 @@ app.use(cors({
     optionsSuccessStatus: 200
 }));
 
+// ルーティングを取得
 app.use(spendsRouter);
+app.use(incomesRouter);
 
 
-// server up
+// サーバー接続
 app.listen(PORT, console.log(`server liten on ${PORT}`));
