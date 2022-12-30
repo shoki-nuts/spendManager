@@ -1,45 +1,51 @@
 import axios from 'axios';
 import React from 'react'
-import { useEffect } from 'react';
+import { useRef } from 'react';
 import { useState } from 'react';
 
 const SpendForm = () => {
 
   const baseURL = 'http://localhost:3001/spends'
 
-  const [SpendName, setSpendName] = useState('');
-  const [SpendAmount, setSpendAmount] = useState('');
+  const [spends, setSpends] = useState({
+    spendName: '',
+    spendAmount: null
+  });
 
-  // inputに入力されたnameデータを取得
-  const handleSpendNameChange = (e) =>{
-    const SpendNameValue = e.target.value 
-    setSpendName(SpendNameValue);
-  }
-
-  // inputに入力されたamountデータを取得
-  const handleSpendAmountChange = (e) =>{
-    const SpendAmountValue = e.target.value
-    setSpendAmount(SpendAmountValue);
-  }
+  const NameRef = useRef();
+  const AmountRef = useRef();
 
   // 取得したデータをpost
   const handleSendForm = () =>{
-    axios.post(baseURL,{
-      name: SpendName,
-      amount: SpendAmount
-    }).then(res=>console.log(`body:`,res.data))
-    .catch(err=>console.log('err:',err))
+    const NameValue = NameRef.current.value
+    const AmountValue = AmountRef.current.value
+
+    axios.post(baseURL,
+      {
+        name:NameValue,
+        amount:AmountValue
+      })
+    .then((res)=>console.log(`POST:`,res))
+    .catch((err)=>console.log('err:',err))
+
+    setSpends({
+      spendName:NameValue,
+      spendAmount:AmountValue
+    });
+
+    NameRef.current.value = ''
+    AmountRef.current.value = ''
   }
 
   return (
     <>
       <form method="post">
-          <input type="text" onChange={handleSpendNameChange}/>
-          <input type="text" onChange={handleSpendAmountChange}/>
+          <input type="text" ref={NameRef}/>
+          <input type="text" ref={AmountRef}/>
           <input type="button" onClick={handleSendForm} value="追加" />
       </form>
-      <p>{SpendName}</p>
-      <p>{SpendAmount}</p>
+      <p>{spends.spendName}</p>
+      <p>{spends.spendAmount}</p>
     </>
   )
 }

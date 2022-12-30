@@ -15,9 +15,9 @@ const SpendsList = () => {
     axios.get(baseURL, {withCredentials: true})
     .then(res=>{
       setSpends(res.data);
-      console.log(`GET status ${res.status}`)
+      console.log(`GET status code:${res.status}`)
     }).catch(err=>{
-        console.log(`Err ${err}`);
+        console.log(`Err: ${err}`);
     }) 
   },[]) 
 
@@ -25,7 +25,7 @@ const SpendsList = () => {
     <>
       <SpendForm/>
       <div>
-        {spends.map((n)=><Spend spend={n}/>)}
+        {spends.map((n)=><Spend spend={n} key={n.id}/>)}
       </div>
     </>
   )
