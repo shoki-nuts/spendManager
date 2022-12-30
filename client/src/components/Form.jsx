@@ -3,14 +3,12 @@ import React from 'react'
 import { useRef } from 'react';
 import { useState } from 'react';
 
-const IncomeForm = () => {
+const Form = ({baseURL}) => {
 
-  const baseURL = 'http://localhost:3001/incomes'
-
-  const [incomes, setIncomes] = useState({
-    incomeDate: '',
-    incomeItem: '',
-    incomeAmount: null
+  const [date, setData] = useState({
+    date: '',
+    item: '',
+    amount: null
   });
 
   const dateRef = useRef();
@@ -33,10 +31,10 @@ const IncomeForm = () => {
     .then((res)=>console.log(`POST:`,res))
     .catch((err)=>console.log('err:',err))
 
-    setIncomes({
-      incomeDate:dateValue,
-      incomeItem:itemValue,
-      incomeAmount:amountValue
+    setData({
+      date:dateValue,
+      item:itemValue,
+      amount:amountValue
     });
 
     dateRef.current.value = ''
@@ -52,11 +50,11 @@ const IncomeForm = () => {
         <input type="text" ref={amountRef}/>
         <input type="button" onClick={handleSendForm} value="追加" />
       </form>
-      <p>{incomes.incomeDate}</p>
-      <p>{incomes.incomeItem}</p>
-      <p>{incomes.incomeAmount}</p>
+      <p>{date.date}</p>
+      <p>{date.item}</p>
+      <p>{date.amount}</p>
     </>
   )
 }
 
-export default IncomeForm
+export default Form
