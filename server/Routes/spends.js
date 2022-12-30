@@ -5,7 +5,7 @@ const router = express.Router();
 // Method GET spends data
 router.get('/spends', (req,res)=>{
     // spendTから全て取得
-    pool.query('SELECT * FROM spend', (err,result)=>{
+    pool.query('SELECT * FROM spends', (err,result)=>{
         if (err) throw err;
         return res.status(200).json(result.rows);
     });
@@ -15,14 +15,15 @@ router.get('/spends', (req,res)=>{
 router.post('/spends', (req,res)=>{
 
     // parmeterからaxiosでpostしたname,amountを拾う
-    const spendName = req.body.name
+    const spendDate = req.body.date
+    const spendItem = req.body.item
     const spendAmount = req.body.amount;
 
     
 
     // nameの値がない、amountの値が数値以外の場合、POSTしない
-    if (spendName.length!==0 && !isNaN(spendAmount)) {
-        pool.query('INSERT INTO spend(name, amount) VALUES ($1,$2)',[spendName, spendAmount])
+    if (spendDate.length!==0 && spendItem.length!==0 && !isNaN(spendAmount)) {
+        pool.query('INSERT INTO spends(name, amount) VALUES ($1,$2)',[spendName, spendAmount])
     
     } else {
         console.log('データの値が無効です');
@@ -35,7 +36,7 @@ router.delete('/spend/:id', (req,res)=>{
     const id = req.params.id;
 
     // spendTからidが合致する行を取得
-    pool.query('DELETE FROM spend where id=$1',[id], (err,result)=>{
+    pool.query('DELETE FROM spends where id=$1',[id], (err,result)=>{
         if (err) throw err;
         return res.status(200).json(result.rows);
     })

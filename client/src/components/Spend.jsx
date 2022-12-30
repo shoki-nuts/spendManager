@@ -16,7 +16,8 @@ const Spend = ({spend}) => {
   
   return (
     <ul>
-      <li>{spend.name}</li>
+      <li>{spend.date}</li>
+      <li>{spend.item}</li>
       <li>{spend.amount}</li>
       <button onClick={handleDeleteSpend}>削除</button>
     </ul>

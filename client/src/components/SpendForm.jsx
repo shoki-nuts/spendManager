@@ -8,43 +8,52 @@ const SpendForm = () => {
   const baseURL = 'http://localhost:3001/spends'
 
   const [spends, setSpends] = useState({
-    spendName: '',
+    spendDate: '',
+    spendItem: '',
     spendAmount: null
   });
 
-  const NameRef = useRef();
-  const AmountRef = useRef();
+  const dateRef = useRef();
+  const itemRef = useRef();
+  const amountRef = useRef();
 
   // 取得したデータをpost
   const handleSendForm = () =>{
-    const NameValue = NameRef.current.value
-    const AmountValue = AmountRef.current.value
+
+    const dateValue = dateRef.current.value
+    const itemValue = itemRef.current.value
+    const amountValue = amountRef.current.value
 
     axios.post(baseURL,
       {
-        name:NameValue,
-        amount:AmountValue
+        date:dateValue,
+        item:itemValue,
+        amount:amountValue
       })
     .then((res)=>console.log(`POST:`,res))
     .catch((err)=>console.log('err:',err))
 
     setSpends({
-      spendName:NameValue,
-      spendAmount:AmountValue
+      spendDate:dateValue,
+      spendItem:itemValue,
+      spendAmount:amountValue
     });
 
-    NameRef.current.value = ''
-    AmountRef.current.value = ''
+    dateRef.current.value = ''
+    itemRef.current.value = ''
+    amountRef.current.value = null
   }
 
   return (
     <>
       <form method="post">
-          <input type="text" ref={NameRef}/>
-          <input type="text" ref={AmountRef}/>
-          <input type="button" onClick={handleSendForm} value="追加" />
+        <input type="date" ref={dateRef}/>
+        <input type="text" ref={itemRef}/>
+        <input type="text" ref={amountRef}/>
+        <input type="button" onClick={handleSendForm} value="追加" />
       </form>
-      <p>{spends.spendName}</p>
+      <p>{spends.spendDate}</p>
+      <p>{spends.spendItem}</p>
       <p>{spends.spendAmount}</p>
     </>
   )
