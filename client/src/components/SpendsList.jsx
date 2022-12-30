@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { useState } from 'react'
 import { useEffect } from 'react';
-import Spend from './Spend';
+import Data from './Data';
 import Form from './Form';
 
 const baseURL = 'http://localhost:3001/spends'
@@ -25,7 +25,7 @@ const SpendsList = () => {
     <>
       <Form baseURL={baseURL}/>
       <div>
-        {spends.map((n)=><Spend spend={n} key={n.spends_id}/>)}
+        {spends.map((n)=><Data data={n} key={n.id}/>)}
       </div>
     </>
   )

@@ -34,7 +34,7 @@ router.delete('/spend/:id', (req,res)=>{
     const id = req.params.id;
 
     // spendTからidが合致する行を取得
-    pool.query('DELETE FROM spends where spends_id=$1',[id], (err,result)=>{
+    pool.query('DELETE FROM spends where id=$1',[id], (err,result)=>{
         if (err) throw err;
         return res.status(200).json(result.rows);
     })
